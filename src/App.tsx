@@ -100,7 +100,6 @@ export default function App() {
                     <a
                       href={section.pullRequestUrl}
                       target="_blank"
-                      rel="noopener noreferrer"
                       className="flex items-center gap-2"
                     >
                       <GitPullRequest className="h-4 w-4" />
@@ -112,32 +111,39 @@ export default function App() {
               </CardHeader>
 
               <CardContent className="flex flex-col gap-4 items-center">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline">View Slides</Button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-background p-8 flex flex-col items-center justify-center">
-                    {(() => {
-                      // Create a ref for each section
-                      if (!carouselRefs[section.id]) {
-                        carouselRefs[section.id] = React.createRef();
-                      }
-                      const carouselRef = carouselRefs[section.id];
-                      const images = Array.isArray(section.imageUrl)
-                        ? section.imageUrl
-                        : section.imageUrl
-                        ? [section.imageUrl]
-                        : [];
-                      const videos = Array.isArray(section.videoUrl)
-                        ? section.videoUrl
-                        : section.videoUrl
-                        ? [section.videoUrl]
-                        : [];
-                      const items = [
-                        ...images.map((url) => ({ type: "image", url })),
-                        ...videos.map((url) => ({ type: "video", url })),
-                      ];
-                      return (
+                {(() => {
+                  const images = Array.isArray(section.imageUrl)
+                    ? section.imageUrl
+                    : section.imageUrl
+                    ? [section.imageUrl]
+                    : [];
+                  const videos = Array.isArray(section.videoUrl)
+                    ? section.videoUrl
+                    : section.videoUrl
+                    ? [section.videoUrl]
+                    : [];
+                  const items = [
+                    ...images.map((url) => ({ type: "image", url })),
+                    ...videos.map((url) => ({ type: "video", url })),
+                  ];
+
+                  // Only show the dialog if there are items to display
+                  if (items.length === 0) {
+                    return null;
+                  }
+
+                  // Create a ref for each section
+                  if (!carouselRefs[section.id]) {
+                    carouselRefs[section.id] = React.createRef();
+                  }
+                  const carouselRef = carouselRefs[section.id];
+
+                  return (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline">View Slides</Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-background p-8 flex flex-col items-center justify-center">
                         <Carousel ref={carouselRef}>
                           <CarouselContent className="p-4">
                             {items.map((item, i) => (
@@ -168,10 +174,10 @@ export default function App() {
                           <CarouselPrevious />
                           <CarouselNext />
                         </Carousel>
-                      );
-                    })()}
-                  </DialogContent>
-                </Dialog>
+                      </DialogContent>
+                    </Dialog>
+                  );
+                })()}
               </CardContent>
             </Card>
           ))}
