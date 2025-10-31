@@ -23,7 +23,7 @@ export function VideoPlayer({ key, src, title }: VideoPlayerProps) {
       <DialogTrigger asChild>
         <div className="aspect-video bg-muted rounded-lg overflow-hidden relative group cursor-pointer">
           <video
-            src={`\\src\\data\\media\\${src}`}
+            src={`/src/data/media/${src}`}
             className="w-full h-full object-cover"
             preload="metadata"
             muted
@@ -42,7 +42,7 @@ export function VideoPlayer({ key, src, title }: VideoPlayerProps) {
         <DialogTitle className="sr-only">Video Demo: {title}</DialogTitle>
         <div className="flex items-center justify-center">
           <video
-            src={`\\src\\data\\media\\${src}`}
+            src={`/src/data/media/${src}`}
             controls
             autoPlay
             className="max-w-full max-h-full object-contain"
